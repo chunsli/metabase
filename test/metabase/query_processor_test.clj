@@ -1402,9 +1402,9 @@
 
 ;;; ------------------------------------------------------------ BUCKETING ------------------------------------------------------------
 
-(defn- ->int-if-number [x]
+(defn- ->long-if-number [x]
   (if (number? x)
-    (int x)
+    (long x)
     x))
 
 (defn- sad-toucan-incidents-with-bucketing [unit]
@@ -1413,7 +1413,7 @@
            (ql/aggregation (ql/count))
            (ql/breakout (ql/datetime-field $timestamp unit))
            (ql/limit 10)))
-       rows (format-rows-by [->int-if-number int])))
+       rows (format-rows-by [->long-if-number int])))
 
 (expect-with-non-timeseries-dbs
   (cond

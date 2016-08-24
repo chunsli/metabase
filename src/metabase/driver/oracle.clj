@@ -205,13 +205,10 @@
                                           "XDB"
                                           "XS$NULL"}
                                         (when config/is-test?
-                                          ;; DIRTY HACK (!) This is the same hack we do for Redshift, see the explanation there
+                                          ;; DIRTY HACK (!) This is similar hack we do for Redshift, see the explanation there
+                                          ;; we just want to ignore all the test "session schemas" that don't match the current test
                                           (require 'metabase.test.data.oracle)
-                                          (let [session-schema-number @(resolve 'metabase.test.data.oracle/session-schema-number)]
-                                            (set (conj (for [i (range 200)
-                                                             :when (not= i session-schema-number)]
-                                                         (str "CAM_" i))
-                                                       "CAM"))))))
+                                          ((resolve 'metabase.test.data.oracle/non-session-schemas)))))
           :field-percent-urls        sql/slow-field-percent-urls
           ;; TODO - we *should* be able to set timezone using the SQL below, but I think the SQL doesn't work with prepared params (i.e., '?')
           ;; Find some way to work around this for Oracle
