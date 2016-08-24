@@ -64,9 +64,11 @@
     ;; so we need to add the cast here
     ;; TODO - fix this when we move to support native params in non-SQL databases
     ;; Perhaps by making ->sql a multimethod that dispatches off of type and engine
-    (let [[start end] (if (oracle-driver?)
-                        [(format-oracle-date start) (format-oracle-date end)]
-                        [start end])]
+    (if (oracle-driver?)
+      (if (= start end)
+        (format "= %s" (format-oracle-date start))
+        (format "BETWEEN %s AND %s" (format-oracle-date start) (format-oracle-date end)))
+      ;; Not the Oracle driver
       (if (= start end)
         (format "= '%s'" start)
         (format "BETWEEN '%s' AND '%s'" start end))))
