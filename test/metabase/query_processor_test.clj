@@ -1429,7 +1429,7 @@
      ["2015-06-02 08:20:00" 1]
      ["2015-06-02 11:11:00" 1]]
 
-    (contains? #{:redshift :sqlserver :bigquery :mongo :postgres :h2} *engine*)
+    (contains? #{:redshift :sqlserver :bigquery :mongo :postgres :h2 :oracle} *engine*)
     [["2015-06-01T10:31:00.000Z" 1]
      ["2015-06-01T16:06:00.000Z" 1]
      ["2015-06-01T17:23:00.000Z" 1]
@@ -1635,7 +1635,7 @@
 (expect-with-non-timeseries-dbs
   ;; Not really sure why different drivers have different opinions on these </3
   (cond
-    (contains? #{:sqlserver :sqlite :crate} *engine*)
+    (contains? #{:sqlserver :sqlite :crate :oracle} *engine*)
     [[23 54] [24 46] [25 39] [26 61]]
 
     (contains? #{:mongo :redshift :bigquery :postgres :h2} *engine*)
